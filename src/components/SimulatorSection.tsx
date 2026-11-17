@@ -1,5 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { ArrowRight, RotateCcw } from 'lucide-react';
+import {
+  ArrowRight,
+  Building2,
+  Car,
+  ChevronRight,
+  LineChart,
+  RotateCcw,
+  TrendingUp,
+} from 'lucide-react';
 import {
   AttachedSimulationSummary,
   ConsortiumCategory,
@@ -15,6 +23,7 @@ import {
   formatBRLPrecise,
 } from '../utils/financialMath';
 import { ProjectionChart } from './ProjectionChart';
+import { TactileSlider } from './TactileSlider';
 
 interface SimulatorSectionProps {
   mode: SimulatorMode;
@@ -24,6 +33,29 @@ interface SimulatorSectionProps {
   onSendToLeadForm: (summary: AttachedSimulationSummary) => void;
 }
 
+const PROOF_METRICS = [
+  {
+    value: 'R$ 184M+',
+    label: 'Em cartas estruturadas',
+    detail: 'Operações auditadas em parceria',
+  },
+  {
+    value: '94%',
+    label: 'Contemplação planejada',
+    detail: 'Janela de 6 a 14 meses',
+  },
+  {
+    value: '38%',
+    label: 'Economia média de capital',
+    detail: 'Frente ao financiamento tradicional',
+  },
+  {
+    value: '340+',
+    label: 'Patrimônios assessorados',
+    detail: 'Empresários, investidores e famílias',
+  },
+];
+
 export function SimulatorSection({
   mode,
   onModeChange,
@@ -31,7 +63,6 @@ export function SimulatorSection({
   onCategoryChange,
   onSendToLeadForm,
 }: SimulatorSectionProps) {
-  // Consortium state
   const catConfig = CATEGORY_DEFAULTS[category];
   const [creditValue, setCreditValue] = useState<number>(catConfig.defaultCredit);
   const [termMonths, setTermMonths] = useState<number>(catConfig.defaultTerm);
@@ -52,7 +83,6 @@ export function SimulatorSection({
     }
   }, [category]);
 
-  // Investment state
   const [profile, setProfile] = useState<InvestmentProfile>('moderado');
   const [initialDeposit, setInitialDeposit] = useState<number>(120000);
   const [monthlyContribution, setMonthlyContribution] = useState<number>(3500);
@@ -61,13 +91,16 @@ export function SimulatorSection({
     INVESTMENT_PROFILES.moderado.annualRatePct
   );
 
-  const handleSelectCategory = (nextCat: ConsortiumCategory) => {
-    onCategoryChange(nextCat);
-    const nextCfg = CATEGORY_DEFAULTS[nextCat];
-    setCreditValue(nextCfg.defaultCredit);
-    setTermMonths(nextCfg.defaultTerm);
-    setAdminFeePct(nextCfg.defaultAdminFee);
-    setReserveFundPct(nextCfg.defaultReserveFund);
+  const handleSelectNav = (nextMode: SimulatorMode, nextCat?: ConsortiumCategory) => {
+    onModeChange(nextMode);
+    if (nextCat) {
+      onCategoryChange(nextCat);
+      const nextCfg = CATEGORY_DEFAULTS[nextCat];
+      setCreditValue(nextCfg.defaultCredit);
+      setTermMonths(nextCfg.defaultTerm);
+      setAdminFeePct(nextCfg.defaultAdminFee);
+      setReserveFundPct(nextCfg.defaultReserveFund);
+    }
   };
 
   const handleSelectProfile = (nextProfile: InvestmentProfile) => {
@@ -147,263 +180,260 @@ export function SimulatorSection({
     }
   };
 
+  const navItems: {
+    id: string;
+    label: string;
+    sublabel: string;
+    mode: SimulatorMode;
+    cat?: ConsortiumCategory;
+    Icon: typeof Building2;
+  }[] = [
+    {
+      id: 'imoveis',
+      label: 'Consórcio Imobiliário',
+      sublabel: 'Residencial e comercial',
+      mode: 'consorcio',
+      cat: 'imoveis',
+      Icon: Building2,
+    },
+    {
+      id: 'veiculos',
+      label: 'Veículos e Frota',
+      sublabel: 'Renovação sem juros',
+      mode: 'consorcio',
+      cat: 'veiculos',
+      Icon: Car,
+    },
+    {
+      id: 'alavancagem',
+      label: 'Alavancagem',
+      sublabel: 'Renda com patrimônio',
+      mode: 'consorcio',
+      cat: 'alavancagem',
+      Icon: TrendingUp,
+    },
+    {
+      id: 'investimento',
+      label: 'Investimentos',
+      sublabel: 'Juros compostos e liquidez',
+      mode: 'investimento',
+      Icon: LineChart,
+    },
+  ];
+
   return (
-    <section id="simulador" className="bg-[#FCFAF7] py-16 lg:py-24">
+    <section id="simulador" className="bg-[#E3DCD5] pb-14 lg:pb-20">
       <div className="mx-auto max-w-[1280px] px-6 lg:px-10">
-        {/* Section Header + Mode Segmented Switch */}
-        <div className="flex flex-col justify-between gap-6 border-b border-[#E5DBCA] pb-8 lg:flex-row lg:items-end">
-          <div className="max-w-2xl">
-            <p className="text-xs font-semibold tracking-wide text-[#87692C]">
-              Simulador Comparativo
-            </p>
-            <h2
-              className="mt-2 font-editorial text-3xl font-semibold tracking-tight text-[#14243B] sm:text-4xl"
-              style={{ textWrap: 'balance' }}
-            >
-              Compare o custo real do consórcio e projete seus investimentos.
-            </h2>
-            <p className="mt-3 text-base text-[#3E597B]">
-              Ajuste os parâmetros abaixo para visualizar parcelas, economia frente aos juros bancários e o acúmulo de patrimônio ao longo do tempo.
-            </p>
-          </div>
-
-          <div
-            role="tablist"
-            aria-label="Modo do simulador"
-            className="inline-flex w-full shrink-0 items-center rounded-lg border border-[#DFD6C5] bg-[#F2EBE0] p-1 sm:w-auto"
-          >
-            <button
-              type="button"
-              role="tab"
-              aria-selected={mode === 'consorcio'}
-              onClick={() => onModeChange('consorcio')}
-              className={`flex-1 rounded-md px-4 py-2.5 text-xs font-semibold whitespace-nowrap shrink-0 transition-colors duration-150 sm:flex-initial ${
-                mode === 'consorcio'
-                  ? 'bg-[#1D324E] text-[#FCFAF7] shadow-xs'
-                  : 'text-[#294366] hover:text-[#14243B]'
-              }`}
-            >
-              Consórcio Estratégico
-            </button>
-            <button
-              type="button"
-              role="tab"
-              aria-selected={mode === 'investimento'}
-              onClick={() => onModeChange('investimento')}
-              className={`flex-1 rounded-md px-4 py-2.5 text-xs font-semibold whitespace-nowrap shrink-0 transition-colors duration-150 sm:flex-initial ${
-                mode === 'investimento'
-                  ? 'bg-[#1D324E] text-[#FCFAF7] shadow-xs'
-                  : 'text-[#294366] hover:text-[#14243B]'
-              }`}
-            >
-              Investimento e Juros Compostos
-            </button>
-          </div>
-        </div>
-
-        {/* Simulator Body */}
-        <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12">
-          {/* Left Column: Controls */}
-          <div className="rounded-xl border border-[#DFD6C5] bg-[#F8F4EC] p-6 sm:p-8 lg:col-span-5">
-            <div className="flex items-center justify-between gap-4 border-b border-[#E5DBCA] pb-4">
-              <h3 className="font-editorial text-2xl font-semibold text-[#14243B]">
-                {mode === 'consorcio' ? 'Parâmetros da Carta' : 'Parâmetros da Carteira'}
-              </h3>
-              <button
-                type="button"
-                onClick={handleReset}
-                className="inline-flex items-center gap-1.5 text-xs font-medium text-[#3E597B] transition-colors hover:text-[#14243B]"
-              >
-                <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" />
-                Restaurar
-              </button>
-            </div>
-
-            {mode === 'consorcio' ? (
-              <div className="mt-6 space-y-6">
-                {/* Category Tabs */}
-                <div>
-                  <span className="block text-xs font-semibold text-[#294366]">
-                    Finalidade da Operação
-                  </span>
-                  <div className="mt-2 grid grid-cols-3 gap-1.5 rounded-lg border border-[#DFD6C5] bg-[#EFE8DA] p-1">
-                    {(Object.keys(CATEGORY_DEFAULTS) as ConsortiumCategory[]).map((key) => (
-                      <button
-                        key={key}
-                        type="button"
-                        onClick={() => handleSelectCategory(key)}
-                        className={`rounded-md px-2 py-2 text-xs font-medium truncate transition-colors duration-150 ${
-                          category === key
-                            ? 'bg-[#FCFAF7] text-[#14243B] shadow-xs'
-                            : 'text-[#3E597B] hover:text-[#14243B]'
-                        }`}
-                      >
-                        {CATEGORY_DEFAULTS[key].label}
-                      </button>
-                    ))}
-                  </div>
-                  <p className="mt-2 text-xs text-[#3E597B]">{catConfig.description}</p>
+        {/* Main Tactile Cockpit Housing */}
+        <div className="tactile-card-stone rounded-3xl p-4 sm:p-6 lg:p-8">
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-7">
+            {/* Left Vertical Tactile Rail (inspired by reference left menu widget) */}
+            <aside className="tactile-panel flex flex-col justify-between rounded-2xl p-4 sm:p-5 lg:col-span-3">
+              <div>
+                <div className="flex items-center justify-between border-b border-[#E3DCD5] pb-3">
+                  <p className="text-xs font-semibold tracking-wide text-[#87692C]">
+                    Modalidade
+                  </p>
+                  <button
+                    type="button"
+                    onClick={handleReset}
+                    className="inline-flex items-center gap-1 text-[11px] font-medium text-[#4E6478] hover:text-[#14243B]"
+                  >
+                    <RotateCcw className="h-3 w-3" aria-hidden="true" />
+                    Restaurar
+                  </button>
                 </div>
 
-                {/* Credit Value Slider */}
-                <div>
-                  <div className="flex items-baseline justify-between gap-2">
-                    <label htmlFor="credit-range" className="text-xs font-semibold text-[#294366]">
-                      Valor da Carta de Crédito
-                    </label>
-                    <span className="font-mono text-base font-medium text-[#14243B] tabular-nums">
-                      {formatBRL(creditValue)}
-                    </span>
-                  </div>
-                  <input
+                <div className="mt-4 space-y-2.5" role="tablist" aria-label="Modalidades do cockpit">
+                  {navItems.map((item) => {
+                    const isActive =
+                      item.mode === 'investimento'
+                        ? mode === 'investimento'
+                        : mode === 'consorcio' && category === item.cat;
+                    const Icon = item.Icon;
+
+                    return (
+                      <button
+                        key={item.id}
+                        type="button"
+                        role="tab"
+                        aria-selected={isActive}
+                        onClick={() => handleSelectNav(item.mode, item.cat)}
+                        className={`flex w-full items-center justify-between gap-3 rounded-xl px-3.5 py-3 text-left transition-all duration-150 ${
+                          isActive
+                            ? 'tactile-tile-sage text-[#FCFAF7]'
+                            : 'tactile-button-raised text-[#1D324E] hover:translate-x-0.5'
+                        }`}
+                      >
+                        <div className="flex min-w-0 items-center gap-2.5">
+                          <Icon
+                            className={`h-4 w-4 shrink-0 ${
+                              isActive ? 'text-[#FCFAF7]' : 'text-[#5B7083]'
+                            }`}
+                            aria-hidden="true"
+                          />
+                          <div className="min-w-0">
+                            <p className="truncate text-xs font-semibold">{item.label}</p>
+                            <p
+                              className={`truncate text-[11px] ${
+                                isActive ? 'text-[#FCFAF7]/85' : 'text-[#4E6478]'
+                              }`}
+                            >
+                              {item.sublabel}
+                            </p>
+                          </div>
+                        </div>
+                        <ChevronRight
+                          className={`h-4 w-4 shrink-0 ${
+                            isActive ? 'text-[#FCFAF7]' : 'text-[#8797A6]'
+                          }`}
+                          aria-hidden="true"
+                        />
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="mt-6 border-t border-[#E3DCD5] pt-4">
+                <p className="text-[11px] leading-relaxed text-[#4E6478]">
+                  {mode === 'consorcio'
+                    ? catConfig.description
+                    : INVESTMENT_PROFILES[profile].subtitle}
+                </p>
+                <button
+                  type="button"
+                  onClick={handleAttachToConsultancy}
+                  className="tactile-tile-navy mt-4 flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-xs font-semibold text-[#FCFAF7] transition-transform duration-150 hover:-translate-y-0.5"
+                >
+                  Levar para Consultoria
+                  <ArrowRight className="h-3.5 w-3.5 text-[#DEC796]" aria-hidden="true" />
+                </button>
+              </div>
+            </aside>
+
+            {/* Center Tactile Controls Panel */}
+            <div className="tactile-panel rounded-2xl p-5 sm:p-6 lg:col-span-4">
+              <div className="border-b border-[#E3DCD5] pb-3">
+                <h2 className="font-editorial text-2xl font-semibold text-[#14243B]">
+                  {mode === 'consorcio' ? 'Ajuste da Carta' : 'Ajuste da Carteira'}
+                </h2>
+              </div>
+
+              {mode === 'consorcio' ? (
+                <div className="mt-5 space-y-4">
+                  <TactileSlider
                     id="credit-range"
-                    type="range"
+                    label="Valor da Carta de Crédito"
+                    valueLabel={formatBRL(creditValue)}
                     min={catConfig.minCredit}
                     max={catConfig.maxCredit}
                     step={catConfig.stepCredit}
                     value={creditValue}
-                    onChange={(e) => setCreditValue(Number(e.target.value))}
-                    className="alvorada-slider mt-3"
+                    minLabel={formatBRL(catConfig.minCredit, true)}
+                    maxLabel={formatBRL(catConfig.maxCredit, true)}
+                    onChange={setCreditValue}
                   />
-                  <div className="mt-2 flex justify-between font-mono text-[11px] text-[#3E597B] tabular-nums">
-                    <span>{formatBRL(catConfig.minCredit, true)}</span>
-                    <span>{formatBRL(catConfig.maxCredit, true)}</span>
-                  </div>
-                </div>
 
-                {/* Term Slider */}
-                <div>
-                  <div className="flex items-baseline justify-between gap-2">
-                    <label htmlFor="term-range" className="text-xs font-semibold text-[#294366]">
-                      Prazo do Grupo
-                    </label>
-                    <span className="font-mono text-base font-medium text-[#14243B] tabular-nums">
-                      {termMonths} meses ({(termMonths / 12).toFixed(1)} anos)
-                    </span>
-                  </div>
-                  <input
+                  <TactileSlider
                     id="term-range"
-                    type="range"
+                    label="Prazo do Grupo"
+                    valueLabel={`${termMonths} meses`}
                     min={catConfig.minTerm}
                     max={catConfig.maxTerm}
                     step={6}
                     value={termMonths}
-                    onChange={(e) => setTermMonths(Number(e.target.value))}
-                    className="alvorada-slider mt-3"
+                    minLabel={`${catConfig.minTerm}m`}
+                    maxLabel={`${catConfig.maxTerm}m`}
+                    onChange={setTermMonths}
                   />
-                  <div className="mt-2 flex justify-between font-mono text-[11px] text-[#3E597B] tabular-nums">
-                    <span>{catConfig.minTerm} meses</span>
-                    <span>{catConfig.maxTerm} meses</span>
-                  </div>
-                </div>
 
-                {/* Embedded Bid Slider */}
-                <div>
-                  <div className="flex items-baseline justify-between gap-2">
-                    <label htmlFor="bid-range" className="text-xs font-semibold text-[#294366]">
-                      Lance Embutido Estratégico
-                    </label>
-                    <span className="font-mono text-base font-medium text-[#14243B] tabular-nums">
-                      {embeddedBidPct}% ({formatBRL(consortiumResult.embeddedBidValue)})
-                    </span>
-                  </div>
-                  <input
+                  <TactileSlider
                     id="bid-range"
-                    type="range"
+                    label="Lance Embutido Estratégico"
+                    valueLabel={`${embeddedBidPct}% (${formatBRL(consortiumResult.embeddedBidValue)})`}
                     min={0}
                     max={40}
                     step={5}
                     value={embeddedBidPct}
-                    onChange={(e) => setEmbeddedBidPct(Number(e.target.value))}
-                    className="alvorada-slider mt-3"
+                    minLabel="0%"
+                    maxLabel="40%"
+                    onChange={setEmbeddedBidPct}
                   />
-                  <p className="mt-1.5 text-xs text-[#3E597B]">
-                    Crédito líquido liberado na contemplação:{' '}
-                    <span className="font-mono font-medium text-[#14243B] tabular-nums">
-                      {formatBRL(consortiumResult.netCredit)}
-                    </span>
-                  </p>
-                </div>
 
-                {/* Admin & Reserve Fees */}
-                <div className="grid grid-cols-2 gap-4 border-t border-[#E5DBCA] pt-4">
-                  <div>
-                    <label
-                      htmlFor="admin-fee"
-                      className="block text-xs font-semibold text-[#294366]"
-                    >
-                      Taxa Adm. Total (%)
-                    </label>
-                    <input
-                      id="admin-fee"
-                      type="number"
-                      min={8}
-                      max={26}
-                      step={0.5}
-                      value={adminFeePct}
-                      onChange={(e) =>
-                        setAdminFeePct(Math.min(26, Math.max(8, Number(e.target.value) || 8)))
-                      }
-                      className="mt-1.5 w-full rounded-md border border-[#D4C6B0] bg-[#FCFAF7] px-3 py-2 font-mono text-sm text-[#14243B] tabular-nums focus:border-[#1D324E] focus:outline-none"
-                    />
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="rounded-xl border border-[#DED7CE] bg-[#EFEAE2]/75 p-3">
+                      <label
+                        htmlFor="admin-fee"
+                        className="block text-[11px] font-semibold text-[#294366]"
+                      >
+                        Taxa Adm. Total (%)
+                      </label>
+                      <input
+                        id="admin-fee"
+                        type="number"
+                        min={8}
+                        max={26}
+                        step={0.5}
+                        value={adminFeePct}
+                        onChange={(e) =>
+                          setAdminFeePct(Math.min(26, Math.max(8, Number(e.target.value) || 8)))
+                        }
+                        className="tactile-recessed mt-1.5 w-full rounded-lg px-2.5 py-1.5 font-mono text-sm text-[#14243B] tabular-nums focus:outline-none"
+                      />
+                    </div>
+                    <div className="rounded-xl border border-[#DED7CE] bg-[#EFEAE2]/75 p-3">
+                      <label
+                        htmlFor="reserve-fee"
+                        className="block text-[11px] font-semibold text-[#294366]"
+                      >
+                        Fundo de Reserva (%)
+                      </label>
+                      <input
+                        id="reserve-fee"
+                        type="number"
+                        min={0}
+                        max={5}
+                        step={0.5}
+                        value={reserveFundPct}
+                        onChange={(e) =>
+                          setReserveFundPct(Math.min(5, Math.max(0, Number(e.target.value) || 0)))
+                        }
+                        className="tactile-recessed mt-1.5 w-full rounded-lg px-2.5 py-1.5 font-mono text-sm text-[#14243B] tabular-nums focus:outline-none"
+                      />
+                    </div>
                   </div>
-                  <div>
-                    <label
-                      htmlFor="reserve-fee"
-                      className="block text-xs font-semibold text-[#294366]"
-                    >
-                      Fundo de Reserva (%)
-                    </label>
-                    <input
-                      id="reserve-fee"
-                      type="number"
-                      min={0}
-                      max={5}
-                      step={0.5}
-                      value={reserveFundPct}
-                      onChange={(e) =>
-                        setReserveFundPct(Math.min(5, Math.max(0, Number(e.target.value) || 0)))
-                      }
-                      className="mt-1.5 w-full rounded-md border border-[#D4C6B0] bg-[#FCFAF7] px-3 py-2 font-mono text-sm text-[#14243B] tabular-nums focus:border-[#1D324E] focus:outline-none"
-                    />
-                  </div>
-                </div>
 
-                {/* Half installment toggle */}
-                <div className="flex items-center justify-between gap-4 border-t border-[#E5DBCA] pt-4">
-                  <div>
-                    <p className="text-xs font-semibold text-[#14243B]">
-                      Plano Meia Parcela até Contemplação
-                    </p>
-                    <p className="text-xs text-[#3E597B]">
-                      Reduz o desembolso mensal enquanto seu capital rende em renda fixa.
-                    </p>
-                  </div>
-                  <button
-                    type="button"
-                    role="switch"
-                    aria-checked={halfInstallment}
-                    onClick={() => setHalfInstallment((prev) => !prev)}
-                    className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full transition-colors duration-150 ${
-                      halfInstallment ? 'bg-[#1D324E]' : 'bg-[#C2D0E0]'
-                    }`}
-                  >
-                    <span
-                      className={`inline-block h-4 w-4 transform rounded-full bg-[#FCFAF7] transition-transform duration-150 ${
-                        halfInstallment ? 'translate-x-6' : 'translate-x-1'
+                  {/* Tactile recessed switch */}
+                  <div className="flex items-center justify-between gap-3 rounded-xl border border-[#DED7CE] bg-[#EFEAE2]/75 p-3.5">
+                    <div>
+                      <p className="text-xs font-semibold text-[#14243B]">
+                        Meia Parcela até Contemplação
+                      </p>
+                      <p className="text-[11px] text-[#4E6478]">
+                        Preserva fluxo enquanto o caixa rende.
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      role="switch"
+                      aria-checked={halfInstallment}
+                      onClick={() => setHalfInstallment((prev) => !prev)}
+                      className={`tactile-recessed relative inline-flex h-7 w-13 shrink-0 cursor-pointer items-center rounded-full p-1 transition-colors duration-150 ${
+                        halfInstallment ? 'bg-[#6E8579]' : 'bg-[#D8D0C6]'
                       }`}
-                    />
-                  </button>
+                    >
+                      <span
+                        className={`tactile-button-raised inline-block h-5 w-5 transform rounded-full transition-transform duration-150 ${
+                          halfInstallment ? 'translate-x-6' : 'translate-x-0'
+                        }`}
+                      />
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <div className="mt-6 space-y-6">
-                {/* Investment Profile Selector */}
-                <div>
-                  <span className="block text-xs font-semibold text-[#294366]">
-                    Perfil de Alocação
-                  </span>
-                  <div className="mt-2 grid grid-cols-1 gap-2">
+              ) : (
+                <div className="mt-5 space-y-4">
+                  <div className="grid grid-cols-1 gap-2">
                     {(Object.keys(INVESTMENT_PROFILES) as InvestmentProfile[]).map((key) => {
                       const item = INVESTMENT_PROFILES[key];
                       const active = profile === key;
@@ -412,308 +442,248 @@ export function SimulatorSection({
                           key={key}
                           type="button"
                           onClick={() => handleSelectProfile(key)}
-                          className={`flex items-center justify-between rounded-lg border px-3.5 py-2.5 text-left transition-colors duration-150 ${
+                          className={`flex items-center justify-between rounded-xl px-3.5 py-2.5 text-left transition-all duration-150 ${
                             active
-                              ? 'border-[#1D324E] bg-[#DCE4EE]/55 text-[#14243B]'
-                              : 'border-[#DFD6C5] bg-[#FCFAF7] text-[#294366] hover:border-[#C4A25D]'
+                              ? 'tactile-tile-slate text-[#FCFAF7]'
+                              : 'tactile-button-raised text-[#1D324E]'
                           }`}
                         >
-                          <div>
+                          <div className="min-w-0">
                             <p className="text-xs font-semibold">{item.label}</p>
-                            <p className="text-[11px] text-[#3E597B]">{item.subtitle}</p>
+                            <p
+                              className={`truncate text-[11px] ${
+                                active ? 'text-[#FCFAF7]/80' : 'text-[#4E6478]'
+                              }`}
+                            >
+                              {item.subtitle}
+                            </p>
                           </div>
-                          <span className="ml-3 font-mono text-xs font-medium text-[#87692C] tabular-nums whitespace-nowrap shrink-0">
-                            {item.annualRatePct.toFixed(2)}% a.a.
+                          <span
+                            className={`ml-3 font-mono text-xs font-semibold tabular-nums shrink-0 ${
+                              active ? 'text-[#DEC796]' : 'text-[#87692C]'
+                            }`}
+                          >
+                            {item.annualRatePct.toFixed(2)}%
                           </span>
                         </button>
                       );
                     })}
                   </div>
-                </div>
 
-                {/* Initial Deposit */}
-                <div>
-                  <div className="flex items-baseline justify-between gap-2">
-                    <label
-                      htmlFor="initial-deposit"
-                      className="text-xs font-semibold text-[#294366]"
-                    >
-                      Aporte Inicial
-                    </label>
-                    <span className="font-mono text-base font-medium text-[#14243B] tabular-nums">
-                      {formatBRL(initialDeposit)}
-                    </span>
-                  </div>
-                  <input
+                  <TactileSlider
                     id="initial-deposit"
-                    type="range"
+                    label="Aporte Inicial"
+                    valueLabel={formatBRL(initialDeposit)}
                     min={10000}
                     max={1000000}
                     step={10000}
                     value={initialDeposit}
-                    onChange={(e) => setInitialDeposit(Number(e.target.value))}
-                    className="alvorada-slider mt-3"
+                    minLabel="R$ 10k"
+                    maxLabel="R$ 1M"
+                    onChange={setInitialDeposit}
                   />
-                </div>
 
-                {/* Monthly Contribution */}
-                <div>
-                  <div className="flex items-baseline justify-between gap-2">
-                    <label
-                      htmlFor="monthly-contribution"
-                      className="text-xs font-semibold text-[#294366]"
-                    >
-                      Aporte Mensal
-                    </label>
-                    <span className="font-mono text-base font-medium text-[#14243B] tabular-nums">
-                      {formatBRL(monthlyContribution)}/mês
-                    </span>
-                  </div>
-                  <input
+                  <TactileSlider
                     id="monthly-contribution"
-                    type="range"
+                    label="Aporte Mensal"
+                    valueLabel={`${formatBRL(monthlyContribution)}/mês`}
                     min={500}
                     max={30000}
                     step={500}
                     value={monthlyContribution}
-                    onChange={(e) => setMonthlyContribution(Number(e.target.value))}
-                    className="alvorada-slider mt-3"
+                    minLabel="R$ 500"
+                    maxLabel="R$ 30k"
+                    onChange={setMonthlyContribution}
                   />
-                </div>
 
-                {/* Horizon Years */}
-                <div>
-                  <div className="flex items-baseline justify-between gap-2">
-                    <label htmlFor="years-range" className="text-xs font-semibold text-[#294366]">
-                      Horizonte de Acumulação
-                    </label>
-                    <span className="font-mono text-base font-medium text-[#14243B] tabular-nums">
-                      {years} anos
-                    </span>
+                  <div className="grid grid-cols-2 gap-3">
+                    <TactileSlider
+                      id="years-range"
+                      label="Prazo"
+                      valueLabel={`${years} anos`}
+                      min={3}
+                      max={25}
+                      step={1}
+                      value={years}
+                      onChange={setYears}
+                    />
+                    <TactileSlider
+                      id="rate-range"
+                      label="Taxa a.a."
+                      valueLabel={`${annualRatePct.toFixed(2)}%`}
+                      min={7}
+                      max={18}
+                      step={0.25}
+                      value={annualRatePct}
+                      onChange={setAnnualRatePct}
+                    />
                   </div>
-                  <input
-                    id="years-range"
-                    type="range"
-                    min={3}
-                    max={25}
-                    step={1}
-                    value={years}
-                    onChange={(e) => setYears(Number(e.target.value))}
-                    className="alvorada-slider mt-3"
-                  />
                 </div>
+              )}
+            </div>
 
-                {/* Annual Return Rate */}
-                <div>
-                  <div className="flex items-baseline justify-between gap-2">
-                    <label htmlFor="rate-range" className="text-xs font-semibold text-[#294366]">
-                      Rentabilidade Esperada (% ao ano)
-                    </label>
-                    <span className="font-mono text-base font-medium text-[#14243B] tabular-nums">
-                      {annualRatePct.toFixed(2)}% a.a.
-                    </span>
-                  </div>
-                  <input
-                    id="rate-range"
-                    type="range"
-                    min={7}
-                    max={18}
-                    step={0.25}
-                    value={annualRatePct}
-                    onChange={(e) => setAnnualRatePct(Number(e.target.value))}
-                    className="alvorada-slider mt-3"
-                  />
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Right Column: Live Results & Chart */}
-          <div className="flex flex-col justify-between rounded-xl border border-[#C2D0E0] bg-[#EEF2F7]/55 p-6 sm:p-8 lg:col-span-7">
-            {mode === 'consorcio' ? (
-              <>
-                <div>
-                  <div className="flex flex-wrap items-baseline justify-between gap-4 border-b border-[#C2D0E0] pb-6">
-                    <div>
-                      <p className="text-xs font-semibold tracking-wide text-[#87692C]">
-                        {halfInstallment
-                          ? 'Parcela Inicial Reduzida (Meia Parcela)'
-                          : 'Parcela Mensal Estimada'}
+            {/* Right Results & Analytics Panel */}
+            <div className="flex flex-col justify-between gap-5 lg:col-span-5">
+              {mode === 'consorcio' ? (
+                <>
+                  {/* 3 Matte Pastel KPI Tiles (Slate, Sage, Ivory) */}
+                  <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
+                    <div className="tactile-tile-navy rounded-2xl p-4 text-[#FCFAF7]">
+                      <p className="text-[11px] font-medium text-[#FCFAF7]/80">
+                        {halfInstallment ? 'Parcela Inicial (50%)' : 'Parcela Mensal'}
                       </p>
-                      <p className="mt-1 font-mono text-3xl font-medium tracking-tight text-[#14243B] tabular-nums sm:text-4xl">
+                      <p className="mt-1.5 font-mono text-xl font-semibold tabular-nums">
                         {formatBRLPrecise(consortiumResult.initialInstallment)}
                       </p>
-                      {halfInstallment && (
-                        <p className="mt-1 text-xs text-[#3E597B]">
-                          Parcela integral padrão:{' '}
-                          <span className="font-mono tabular-nums font-medium text-[#14243B]">
-                            {formatBRLPrecise(consortiumResult.monthlyInstallment)}
-                          </span>
-                        </p>
-                      )}
+                      <p className="mt-1 font-mono text-[11px] text-[#DEC796] tabular-nums">
+                        {halfInstallment
+                          ? `Integral: ${formatBRL(consortiumResult.monthlyInstallment)}`
+                          : `${termMonths} meses`}
+                      </p>
                     </div>
 
-                    <div className="sm:text-right">
-                      <p className="text-xs font-semibold tracking-wide text-[#294366]">
-                        Economia Estimada vs. Financiamento
+                    <div className="tactile-tile-sage rounded-2xl p-4 text-[#FCFAF7]">
+                      <p className="text-[11px] font-medium text-[#FCFAF7]/85">
+                        Economia vs. Banco
                       </p>
-                      <p className="mt-1 font-mono text-2xl font-medium text-[#87692C] tabular-nums sm:text-3xl">
+                      <p className="mt-1.5 font-mono text-xl font-semibold tabular-nums">
                         {formatBRL(consortiumResult.estimatedSavings)}
                       </p>
-                      <p className="mt-1 text-xs text-[#3E597B]">
-                        Redução de{' '}
-                        <span className="font-mono font-semibold text-[#14243B] tabular-nums">
-                          {consortiumResult.savingsPct.toFixed(0)}%
-                        </span>{' '}
-                        no desembolso total
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Clean tabular comparison rows */}
-                  <div className="my-6 grid grid-cols-1 gap-6 sm:grid-cols-3">
-                    <div>
-                      <p className="text-xs text-[#3E597B]">Custo Total do Consórcio</p>
-                      <p className="mt-1 font-mono text-lg font-medium text-[#14243B] tabular-nums">
-                        {formatBRL(consortiumResult.totalCost)}
-                      </p>
-                      <p className="mt-0.5 font-mono text-xs text-[#3E597B] tabular-nums">
-                        ~{consortiumResult.effectiveAnnualCostPct.toFixed(2)}% a.a. equivalente
+                      <p className="mt-1 font-mono text-[11px] text-[#FCFAF7]/85 tabular-nums">
+                        -{consortiumResult.savingsPct.toFixed(0)}% no total pago
                       </p>
                     </div>
 
-                    <div>
-                      <p className="text-xs text-[#3E597B]">Financiamento Bancário</p>
-                      <p className="mt-1 font-mono text-lg font-medium text-[#294366] tabular-nums">
-                        {formatBRL(consortiumResult.bankTotalCost)}
+                    <div className="tactile-tile-slate rounded-2xl p-4 text-[#FCFAF7]">
+                      <p className="text-[11px] font-medium text-[#FCFAF7]/85">
+                        Crédito Líquido
                       </p>
-                      <p className="mt-0.5 font-mono text-xs text-[#3E597B] tabular-nums">
-                        Parcela média {formatBRL(consortiumResult.bankMonthlyInstallment)} ({consortiumResult.bankAnnualRatePct.toFixed(1)}% a.a.)
-                      </p>
-                    </div>
-
-                    <div>
-                      <p className="text-xs text-[#3E597B]">Crédito Líquido na Mão</p>
-                      <p className="mt-1 font-mono text-lg font-medium text-[#14243B] tabular-nums">
+                      <p className="mt-1.5 font-mono text-xl font-semibold tabular-nums">
                         {formatBRL(consortiumResult.netCredit)}
                       </p>
-                      <p className="mt-0.5 text-xs text-[#3E597B]">
-                        Após lance embutido de {embeddedBidPct}%
+                      <p className="mt-1 font-mono text-[11px] text-[#FCFAF7]/80 tabular-nums">
+                        ~{consortiumResult.effectiveAnnualCostPct.toFixed(2)}% a.a.
                       </p>
                     </div>
                   </div>
 
-                  <ProjectionChart
-                    title="Desembolso Acumulado ao Longo do Prazo"
-                    primaryLabel="Consórcio Mapeal · NS"
-                    secondaryLabel="Financiamento Bancário"
-                    data={consortiumResult.chartSeries.map((pt) => ({
-                      label: pt.label,
-                      primaryValue: pt.consortiumPaid,
-                      secondaryValue: pt.bankPaid,
-                    }))}
-                  />
-                </div>
+                  {/* Chart Panel */}
+                  <div className="tactile-panel flex-1 rounded-2xl p-5">
+                    <ProjectionChart
+                      title="Desembolso Acumulado ao Longo do Prazo"
+                      primaryLabel="Consórcio Mapeal · NS"
+                      secondaryLabel="Financiamento Bancário"
+                      data={consortiumResult.chartSeries.map((pt) => ({
+                        label: pt.label,
+                        primaryValue: pt.consortiumPaid,
+                        secondaryValue: pt.bankPaid,
+                      }))}
+                    />
 
-                <div className="mt-6 flex flex-col justify-between gap-4 border-t border-[#C2D0E0] pt-5 sm:flex-row sm:items-center">
-                  <p className="text-xs text-[#3E597B]">
-                    Simulação base sem atualização anual de índice. Na consultoria, analisamos histórico de lances reais por grupo.
-                  </p>
-                  <button
-                    type="button"
-                    onClick={handleAttachToConsultancy}
-                    className="inline-flex items-center justify-center gap-2 rounded-md bg-[#1D324E] px-5 py-3 text-xs font-semibold text-[#FCFAF7] whitespace-nowrap shrink-0 transition-colors duration-150 hover:bg-[#294366] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#A5833E]"
-                  >
-                    Levar Simulação para Consultoria
-                    <ArrowRight className="h-4 w-4 text-[#DEC796]" aria-hidden="true" />
-                  </button>
-                </div>
-              </>
-            ) : (
-              <>
-                <div>
-                  <div className="flex flex-wrap items-baseline justify-between gap-4 border-b border-[#C2D0E0] pb-6">
-                    <div>
-                      <p className="text-xs font-semibold tracking-wide text-[#87692C]">
-                        Patrimônio Projetado em {years} Anos
+                    <div className="mt-4 grid grid-cols-2 gap-4 border-t border-[#E3DCD5] pt-3 text-xs">
+                      <div>
+                        <p className="text-[#4E6478]">Custo total consórcio</p>
+                        <p className="font-mono font-semibold text-[#14243B] tabular-nums">
+                          {formatBRL(consortiumResult.totalCost)}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-[#4E6478]">Financiamento equivalente</p>
+                        <p className="font-mono font-semibold text-[#53695D] tabular-nums">
+                          {formatBRL(consortiumResult.bankTotalCost)}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
+                    <div className="tactile-tile-navy rounded-2xl p-4 text-[#FCFAF7]">
+                      <p className="text-[11px] font-medium text-[#FCFAF7]/80">
+                        Patrimônio em {years}a
                       </p>
-                      <p className="mt-1 font-mono text-3xl font-medium tracking-tight text-[#14243B] tabular-nums sm:text-4xl">
+                      <p className="mt-1.5 font-mono text-xl font-semibold tabular-nums">
                         {formatBRL(investmentResult.finalBalance)}
                       </p>
-                      <p className="mt-1 text-xs text-[#3E597B]">
-                        Rendimento composto acumulado:{' '}
-                        <span className="font-mono font-medium text-[#14243B] tabular-nums">
-                          +{formatBRL(investmentResult.totalYield)}
-                        </span>
-                      </p>
-                    </div>
-
-                    <div className="sm:text-right">
-                      <p className="text-xs font-semibold tracking-wide text-[#294366]">
-                        Renda Passiva Mensal Estimada
-                      </p>
-                      <p className="mt-1 font-mono text-2xl font-medium text-[#87692C] tabular-nums sm:text-3xl">
-                        {formatBRL(investmentResult.monthlyPassiveIncome)}/mês
-                      </p>
-                      <p className="mt-1 text-xs text-[#3E597B]">
-                        Estimativa sustentável no horizonte final
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="my-6 grid grid-cols-1 gap-6 sm:grid-cols-3">
-                    <div>
-                      <p className="text-xs text-[#3E597B]">Total Investido do Bolso</p>
-                      <p className="mt-1 font-mono text-lg font-medium text-[#14243B] tabular-nums">
-                        {formatBRL(investmentResult.totalContributed)}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-xs text-[#3E597B]">Juros sobre Juros</p>
-                      <p className="mt-1 font-mono text-lg font-medium text-[#87692C] tabular-nums">
-                        +{formatBRL(investmentResult.totalYield)}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-xs text-[#3E597B]">Multiplicador de Capital</p>
-                      <p className="mt-1 font-mono text-lg font-medium text-[#14243B] tabular-nums">
+                      <p className="mt-1 font-mono text-[11px] text-[#DEC796] tabular-nums">
                         {(
                           investmentResult.finalBalance /
                           Math.max(1, investmentResult.totalContributed)
                         ).toFixed(2)}
-                        x
+                        x o investido
+                      </p>
+                    </div>
+
+                    <div className="tactile-tile-sage rounded-2xl p-4 text-[#FCFAF7]">
+                      <p className="text-[11px] font-medium text-[#FCFAF7]/85">
+                        Rendimento Composto
+                      </p>
+                      <p className="mt-1.5 font-mono text-xl font-semibold tabular-nums">
+                        +{formatBRL(investmentResult.totalYield)}
+                      </p>
+                      <p className="mt-1 font-mono text-[11px] text-[#FCFAF7]/85 tabular-nums">
+                        {annualRatePct.toFixed(2)}% ao ano
+                      </p>
+                    </div>
+
+                    <div className="tactile-tile-slate rounded-2xl p-4 text-[#FCFAF7]">
+                      <p className="text-[11px] font-medium text-[#FCFAF7]/85">
+                        Renda Passiva / Mês
+                      </p>
+                      <p className="mt-1.5 font-mono text-xl font-semibold tabular-nums">
+                        {formatBRL(investmentResult.monthlyPassiveIncome)}
+                      </p>
+                      <p className="mt-1 text-[11px] text-[#FCFAF7]/80">
+                        Estimativa sustentável
                       </p>
                     </div>
                   </div>
 
-                  <ProjectionChart
-                    title="Evolução Patrimonial vs. Total Aportado"
-                    primaryLabel="Patrimônio Acumulado"
-                    secondaryLabel="Total Aportado"
-                    data={investmentResult.chartSeries.map((pt) => ({
-                      label: pt.label,
-                      primaryValue: pt.balance,
-                      secondaryValue: pt.contributed,
-                    }))}
-                  />
-                </div>
+                  <div className="tactile-panel flex-1 rounded-2xl p-5">
+                    <ProjectionChart
+                      title="Evolução Patrimonial vs. Total Aportado"
+                      primaryLabel="Patrimônio Acumulado"
+                      secondaryLabel="Total Aportado"
+                      data={investmentResult.chartSeries.map((pt) => ({
+                        label: pt.label,
+                        primaryValue: pt.balance,
+                        secondaryValue: pt.contributed,
+                      }))}
+                    />
 
-                <div className="mt-6 flex flex-col justify-between gap-4 border-t border-[#C2D0E0] pt-5 sm:flex-row sm:items-center">
-                  <p className="text-xs text-[#3E597B]">
-                    Podemos combinar esta carteira com cartas contempladas para acelerar o retorno líquido.
-                  </p>
-                  <button
-                    type="button"
-                    onClick={handleAttachToConsultancy}
-                    className="inline-flex items-center justify-center gap-2 rounded-md bg-[#1D324E] px-5 py-3 text-xs font-semibold text-[#FCFAF7] whitespace-nowrap shrink-0 transition-colors duration-150 hover:bg-[#294366] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#A5833E]"
-                  >
-                    Levar Projeção para Consultoria
-                    <ArrowRight className="h-4 w-4 text-[#DEC796]" aria-hidden="true" />
-                  </button>
-                </div>
-              </>
-            )}
+                    <div className="mt-4 grid grid-cols-2 gap-4 border-t border-[#E3DCD5] pt-3 text-xs">
+                      <div>
+                        <p className="text-[#4E6478]">Total aportado</p>
+                        <p className="font-mono font-semibold text-[#14243B] tabular-nums">
+                          {formatBRL(investmentResult.totalContributed)}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-[#4E6478]">Renda passiva mensal</p>
+                        <p className="font-mono font-semibold text-[#53695D] tabular-nums">
+                          {formatBRL(investmentResult.monthlyPassiveIncome)}/mês
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
+        </div>
+
+        {/* 4-Column Tactile Quantitative Strip directly below Cockpit */}
+        <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {PROOF_METRICS.map((metric) => (
+            <div key={metric.label} className="tactile-panel rounded-2xl p-5">
+              <p className="font-mono text-2xl font-semibold tracking-tight text-[#14243B] tabular-nums">
+                {metric.value}
+              </p>
+              <p className="mt-1 text-sm font-semibold text-[#294366]">{metric.label}</p>
+              <p className="mt-0.5 text-xs text-[#4E6478]">{metric.detail}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>

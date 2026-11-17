@@ -55,7 +55,7 @@ const PROCESS_STEPS = [
 
 export function ProofAndProcessSection() {
   return (
-    <section id="resultados" className="border-t border-[#E5DBCA] bg-[#FCFAF7] py-16 lg:py-24">
+    <section id="resultados" className="border-t border-[#CFC6BC] bg-[#E3DCD5] py-16 lg:py-24">
       <div className="mx-auto max-w-[1280px] px-6 lg:px-10">
         {/* Verified Google Reviews Header */}
         <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
@@ -71,8 +71,8 @@ export function ProofAndProcessSection() {
             </h2>
           </div>
 
-          <div className="shrink-0 border-t border-[#E5DBCA] pt-4 lg:border-t-0 lg:pt-0 lg:text-right">
-            <div className="flex items-center gap-2 lg:justify-end">
+          <div className="tactile-panel shrink-0 rounded-2xl px-5 py-3.5">
+            <div className="flex items-center gap-2.5">
               <span className="font-mono text-2xl font-semibold text-[#14243B] tabular-nums">
                 5,0
               </span>
@@ -92,12 +92,12 @@ export function ProofAndProcessSection() {
           </div>
         </div>
 
-        {/* 3 Real Testimonials */}
-        <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-3">
+        {/* 3 Real Testimonials in Tactile Matte Panels */}
+        <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-3">
           {GOOGLE_TESTIMONIALS.map((item) => (
             <article
               key={item.author}
-              className="flex flex-col justify-between rounded-xl border border-[#DFD6C5] bg-[#F8F4EC]/70 p-6 sm:p-7"
+              className="tactile-panel flex flex-col justify-between rounded-2xl p-6 sm:p-7"
             >
               <div>
                 <div className="flex items-center justify-between gap-3">
@@ -122,16 +122,16 @@ export function ProofAndProcessSection() {
                 </blockquote>
               </div>
 
-              <div className="mt-6 border-t border-[#E5DBCA] pt-4">
+              <div className="mt-6 border-t border-[#E3DCD5] pt-4">
                 <p className="text-sm font-semibold text-[#14243B]">{item.author}</p>
-                <p className="text-xs text-[#3E597B]">{item.context}</p>
+                <p className="text-xs text-[#4E6478]">{item.context}</p>
               </div>
             </article>
           ))}
         </div>
 
-        {/* 3-step transparent methodology */}
-        <div className="mt-16 border-t border-[#E5DBCA] pt-14">
+        {/* 3-step transparent methodology in tactile stone cards */}
+        <div className="mt-14 border-t border-[#CFC6BC] pt-12">
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
             <div className="lg:col-span-4">
               <p className="text-xs font-semibold tracking-wide text-[#87692C]">
@@ -142,9 +142,9 @@ export function ProofAndProcessSection() {
               </h3>
             </div>
 
-            <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 lg:col-span-8">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-3 lg:col-span-8">
               {PROCESS_STEPS.map((item) => (
-                <div key={item.step} className="border-t border-[#C2D0E0] pt-4">
+                <div key={item.step} className="tactile-card-stone rounded-2xl p-5">
                   <h4 className="font-editorial text-xl font-semibold text-[#14243B]">
                     {item.step}
                   </h4>

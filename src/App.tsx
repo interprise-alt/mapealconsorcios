@@ -42,7 +42,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FCFAF7] text-[#14243B]">
+    <div className="min-h-screen bg-[#E3DCD5] text-[#14243B]">
       <Navbar onBookClick={() => scrollToSection('contato')} />
 
       <main>

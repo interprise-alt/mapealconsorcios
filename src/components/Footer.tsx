@@ -2,13 +2,13 @@ import { BrandLogo, PartnerSeal } from './BrandLogo';
 
 export function Footer() {
   return (
-    <footer className="border-t border-[#DFD6C5] bg-[#F2EBE0]/70">
+    <footer className="border-t border-[#CFC6BC] bg-[#E3DCD5]">
       <div className="mx-auto max-w-[1280px] px-6 py-12 lg:px-10">
         <div className="flex flex-col justify-between gap-10 md:flex-row md:items-start">
           <div className="max-w-md">
             <div className="flex flex-wrap items-center gap-5">
               <BrandLogo className="h-14 w-auto sm:h-16" />
-              <div className="h-10 w-px bg-[#D4C6B0]" aria-hidden="true" />
+              <div className="h-10 w-px bg-[#CFC6BC]" aria-hidden="true" />
               <div className="flex items-center gap-3">
                 <PartnerSeal className="h-12 w-12" />
                 <div className="text-xs text-[#294366]">
@@ -39,7 +39,7 @@ export function Footer() {
                 </li>
                 <li>
                   <a href="#resultados" className="hover:text-[#14243B] hover:underline">
-                    Resultados
+                    Avaliações
                   </a>
                 </li>
                 <li>
@@ -78,7 +78,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col justify-between gap-4 border-t border-[#DFD6C5] pt-6 text-xs text-[#3E597B] sm:flex-row sm:items-center">
+        <div className="mt-10 flex flex-col justify-between gap-4 border-t border-[#CFC6BC] pt-6 text-xs text-[#4E6478] sm:flex-row sm:items-center">
           <p>
             © {new Date().getFullYear()} Mapeal — Consultoria em Negócios, Investimentos e Consórcios. Em parceria com NS Assessoria Consórcios.
           </p>

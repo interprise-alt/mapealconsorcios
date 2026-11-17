@@ -107,11 +107,11 @@ export function LeadCaptureSection({
   return (
     <section
       id="contato"
-      className="border-t border-[#DFD6C5] bg-gradient-to-b from-[#EEF2F7]/50 to-[#F5F0E6]/70 py-16 lg:py-24"
+      className="border-t border-[#CFC6BC] bg-[#ECE6DF] py-16 lg:py-24"
     >
       <div className="mx-auto max-w-[1280px] px-6 lg:px-10">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
-          {/* Left column: Value proposition & direct WhatsApp/Email targets */}
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">
+          {/* Left column */}
           <div className="lg:col-span-5">
             <p className="text-xs font-semibold tracking-wide text-[#87692C]">
               Diagnóstico Individual
@@ -126,15 +126,15 @@ export function LeadCaptureSection({
               Em uma reunião reservada com a Mapeal, apresentamos comparativos reais da NS Assessoria Consórcios, média de lances dos últimos 6 meses e impacto na sua carteira de investimentos.
             </p>
 
-            <div className="mt-8 space-y-5 border-t border-[#DFD6C5] pt-6 text-sm text-[#294366]">
+            <div className="tactile-panel mt-8 space-y-5 rounded-2xl p-6 text-sm text-[#294366]">
               <div>
                 <p className="font-semibold text-[#14243B]">Canais diretos de atendimento</p>
-                <div className="mt-2 flex flex-col items-start gap-2">
+                <div className="mt-2.5 flex flex-col items-start gap-2.5">
                   <a
                     href={directWhatsappUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 font-mono text-base font-medium text-[#1D324E] tabular-nums hover:text-[#87692C] hover:underline hover:underline-offset-4"
+                    className="inline-flex items-center gap-2 font-mono text-base font-semibold text-[#1D324E] tabular-nums hover:text-[#87692C] hover:underline hover:underline-offset-4"
                   >
                     <Phone className="h-4 w-4 text-[#87692C]" aria-hidden="true" />
                     {WHATSAPP_DISPLAY}
@@ -149,25 +149,25 @@ export function LeadCaptureSection({
                     {CONTACT_EMAIL}
                   </a>
                 </div>
-                <p className="mt-1.5 text-xs text-[#3E597B]">
+                <p className="mt-2 text-xs text-[#4E6478]">
                   Atendimento direto para simulações, análise de lances e investimentos.
                 </p>
               </div>
 
-              <div>
+              <div className="border-t border-[#E3DCD5] pt-4">
                 <p className="font-semibold text-[#14243B]">Atendimento sem custo inicial</p>
-                <p className="text-xs text-[#3E597B]">
+                <p className="mt-0.5 text-xs text-[#4E6478]">
                   Diagnóstico patrimonial gratuito, presencial ou por videoconferência em todo o Brasil.
                 </p>
               </div>
             </div>
           </div>
 
-          {/* Right column: Lead Form or Confirmation */}
-          <div className="rounded-xl border border-[#DFD6C5] bg-[#FCFAF7] p-6 shadow-xs sm:p-8 lg:col-span-7">
+          {/* Right column: Tactile Form */}
+          <div className="tactile-panel rounded-3xl p-6 sm:p-8 lg:col-span-7">
             {submittedProtocol ? (
               <div className="py-4">
-                <div className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-[#DCE4EE] text-[#1D324E]">
+                <div className="tactile-tile-sage inline-flex h-11 w-11 items-center justify-center rounded-xl text-[#FCFAF7]">
                   <CheckCircle2 className="h-6 w-6" aria-hidden="true" />
                 </div>
                 <h3 className="mt-4 font-editorial text-3xl font-semibold text-[#14243B]">
@@ -183,13 +183,13 @@ export function LeadCaptureSection({
                   .
                 </p>
 
-                <div className="mt-6 rounded-lg border border-[#DFD6C5] bg-[#F8F4EC] p-4">
-                  <p className="text-xs text-[#3E597B]">Protocolo de atendimento</p>
-                  <p className="mt-1 font-mono text-base font-medium text-[#14243B] tabular-nums">
+                <div className="tactile-card-stone mt-6 rounded-2xl p-4">
+                  <p className="text-xs text-[#4E6478]">Protocolo de atendimento</p>
+                  <p className="mt-1 font-mono text-base font-semibold text-[#14243B] tabular-nums">
                     {submittedProtocol}
                   </p>
                   {attachedSimulation && (
-                    <p className="mt-2 border-t border-[#E5DBCA] pt-2 text-xs text-[#294366]">
+                    <p className="mt-2 border-t border-[#CFC6BC] pt-2 text-xs text-[#294366]">
                       Simulação anexada: {attachedSimulation.title} — {attachedSimulation.details}
                     </p>
                   )}
@@ -200,7 +200,7 @@ export function LeadCaptureSection({
                     href={whatsappUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-md bg-[#1D324E] px-5 py-3 text-xs font-semibold text-[#FCFAF7] whitespace-nowrap shrink-0 transition-colors hover:bg-[#294366]"
+                    className="tactile-tile-navy inline-flex items-center gap-2 rounded-xl px-5 py-3 text-xs font-semibold text-[#FCFAF7] whitespace-nowrap shrink-0 transition-transform duration-150 hover:-translate-y-0.5"
                   >
                     Enviar no WhatsApp {WHATSAPP_DISPLAY}
                     <ArrowUpRight className="h-4 w-4 text-[#DEC796]" aria-hidden="true" />
@@ -209,7 +209,7 @@ export function LeadCaptureSection({
                   <button
                     type="button"
                     onClick={handleResetSubmission}
-                    className="rounded-md border border-[#C2D0E0] px-4 py-3 text-xs font-semibold text-[#1D324E] transition-colors hover:bg-[#EEF2F7]"
+                    className="tactile-button-raised rounded-xl px-4 py-3 text-xs font-semibold text-[#1D324E]"
                   >
                     Fazer nova solicitação
                   </button>
@@ -218,13 +218,15 @@ export function LeadCaptureSection({
             ) : (
               <form onSubmit={handleSubmit} noValidate className="space-y-5">
                 {attachedSimulation && (
-                  <div className="flex items-start justify-between gap-4 rounded-lg border border-[#C2D0E0] bg-[#EEF2F7]/70 p-4">
+                  <div className="tactile-tile-slate flex items-start justify-between gap-4 rounded-2xl p-4 text-[#FCFAF7]">
                     <div>
-                      <p className="text-xs font-semibold text-[#1D324E]">
+                      <p className="text-xs font-semibold text-[#FCFAF7]">
                         {attachedSimulation.title}
                       </p>
-                      <p className="mt-0.5 text-xs text-[#3E597B]">{attachedSimulation.details}</p>
-                      <p className="mt-1 font-mono text-xs font-medium text-[#87692C] tabular-nums">
+                      <p className="mt-0.5 text-xs text-[#FCFAF7]/85">
+                        {attachedSimulation.details}
+                      </p>
+                      <p className="mt-1 font-mono text-xs font-semibold text-[#DEC796] tabular-nums">
                         {attachedSimulation.highlightLabel}: {attachedSimulation.highlightValue}
                       </p>
                     </div>
@@ -232,7 +234,7 @@ export function LeadCaptureSection({
                       type="button"
                       onClick={onClearAttachedSimulation}
                       aria-label="Remover simulação anexada"
-                      className="rounded p-1 text-[#3E597B] hover:bg-[#DCE4EE] hover:text-[#14243B]"
+                      className="rounded-lg p-1 text-[#FCFAF7]/80 hover:bg-white/15 hover:text-[#FCFAF7]"
                     >
                       <X className="h-4 w-4" aria-hidden="true" />
                     </button>
@@ -256,10 +258,8 @@ export function LeadCaptureSection({
                         if (errors.name) setErrors((prev) => ({ ...prev, name: undefined }));
                       }}
                       placeholder="Ex.: Mariana Albuquerque"
-                      className={`mt-1.5 w-full rounded-md border bg-[#FCFAF7] px-3.5 py-2.5 text-sm text-[#14243B] placeholder:text-[#3E597B]/50 focus:outline-none ${
-                        errors.name
-                          ? 'border-red-700 focus:border-red-700'
-                          : 'border-[#D4C6B0] focus:border-[#1D324E]'
+                      className={`tactile-recessed mt-1.5 w-full rounded-xl px-3.5 py-2.5 text-sm text-[#14243B] placeholder:text-[#4E6478]/65 focus:outline-none ${
+                        errors.name ? 'ring-2 ring-red-700' : 'focus:ring-2 focus:ring-[#5B7083]'
                       }`}
                     />
                     {errors.name && (
@@ -283,10 +283,8 @@ export function LeadCaptureSection({
                         if (errors.phone) setErrors((prev) => ({ ...prev, phone: undefined }));
                       }}
                       placeholder="(31) 99999-9999"
-                      className={`mt-1.5 w-full rounded-md border bg-[#FCFAF7] px-3.5 py-2.5 font-mono text-sm text-[#14243B] tabular-nums placeholder:font-sans placeholder:text-[#3E597B]/50 focus:outline-none ${
-                        errors.phone
-                          ? 'border-red-700 focus:border-red-700'
-                          : 'border-[#D4C6B0] focus:border-[#1D324E]'
+                      className={`tactile-recessed mt-1.5 w-full rounded-xl px-3.5 py-2.5 font-mono text-sm text-[#14243B] tabular-nums placeholder:font-sans placeholder:text-[#4E6478]/65 focus:outline-none ${
+                        errors.phone ? 'ring-2 ring-red-700' : 'focus:ring-2 focus:ring-[#5B7083]'
                       }`}
                     />
                     {errors.phone && (
@@ -312,10 +310,8 @@ export function LeadCaptureSection({
                         if (errors.email) setErrors((prev) => ({ ...prev, email: undefined }));
                       }}
                       placeholder="nome@empresa.com.br"
-                      className={`mt-1.5 w-full rounded-md border bg-[#FCFAF7] px-3.5 py-2.5 text-sm text-[#14243B] placeholder:text-[#3E597B]/50 focus:outline-none ${
-                        errors.email
-                          ? 'border-red-700 focus:border-red-700'
-                          : 'border-[#D4C6B0] focus:border-[#1D324E]'
+                      className={`tactile-recessed mt-1.5 w-full rounded-xl px-3.5 py-2.5 text-sm text-[#14243B] placeholder:text-[#4E6478]/65 focus:outline-none ${
+                        errors.email ? 'ring-2 ring-red-700' : 'focus:ring-2 focus:ring-[#5B7083]'
                       }`}
                     />
                     {errors.email && (
@@ -334,7 +330,7 @@ export function LeadCaptureSection({
                       id="lead-objective"
                       value={objective}
                       onChange={(e) => setObjective(e.target.value)}
-                      className="mt-1.5 w-full rounded-md border border-[#D4C6B0] bg-[#FCFAF7] px-3.5 py-2.5 text-sm text-[#14243B] focus:border-[#1D324E] focus:outline-none"
+                      className="tactile-recessed mt-1.5 w-full rounded-xl px-3.5 py-2.5 text-sm text-[#14243B] focus:ring-2 focus:ring-[#5B7083] focus:outline-none"
                     >
                       <option value="Consórcio Imobiliário">Consórcio Imobiliário</option>
                       <option value="Alavancagem e Renda Passiva">
@@ -361,10 +357,10 @@ export function LeadCaptureSection({
                           key={slot}
                           type="button"
                           onClick={() => setPreferredWindow(slot)}
-                          className={`rounded-md border px-3 py-2 text-xs font-medium transition-colors ${
+                          className={`rounded-xl px-3 py-2.5 text-xs font-semibold transition-all duration-150 ${
                             preferredWindow === slot
-                              ? 'border-[#1D324E] bg-[#DCE4EE]/60 text-[#14243B]'
-                              : 'border-[#DFD6C5] bg-[#FCFAF7] text-[#3E597B] hover:border-[#C4A25D]'
+                              ? 'tactile-tile-sage text-[#FCFAF7]'
+                              : 'tactile-button-raised text-[#3E597B]'
                           }`}
                         >
                           {slot}
@@ -384,17 +380,17 @@ export function LeadCaptureSection({
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
                     placeholder="Conte brevemente seu prazo ou se possui capital disponível para lance..."
-                    className="mt-1.5 w-full rounded-md border border-[#D4C6B0] bg-[#FCFAF7] px-3.5 py-2.5 text-sm text-[#14243B] placeholder:text-[#3E597B]/50 focus:border-[#1D324E] focus:outline-none"
+                    className="tactile-recessed mt-1.5 w-full rounded-xl px-3.5 py-2.5 text-sm text-[#14243B] placeholder:text-[#4E6478]/65 focus:ring-2 focus:ring-[#5B7083] focus:outline-none"
                   />
                 </div>
 
                 <div className="flex flex-col justify-between gap-4 pt-2 sm:flex-row sm:items-center">
-                  <p className="text-xs text-[#3E597B]">
+                  <p className="text-xs text-[#4E6478]">
                     Atendimento direto via {WHATSAPP_DISPLAY}.
                   </p>
                   <button
                     type="submit"
-                    className="rounded-md bg-[#1D324E] px-6 py-3 text-sm font-semibold text-[#FCFAF7] whitespace-nowrap shrink-0 transition-colors duration-150 hover:bg-[#294366] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#A5833E]"
+                    className="tactile-tile-navy rounded-xl px-6 py-3 text-sm font-semibold text-[#FCFAF7] whitespace-nowrap shrink-0 transition-transform duration-150 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#A5833E]"
                   >
                     Solicitar Estudo Personalizado
                   </button>

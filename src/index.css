@@ -5,31 +5,22 @@
   --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 
-  --color-ivory: #FCFAF7;
-  --color-beige-50: #F8F4EC;
-  --color-beige-100: #F2EBE0;
-  --color-beige-200: #E5DBCA;
-  --color-beige-300: #D4C6B0;
-
-  --color-navy-50: #EEF2F7;
-  --color-navy-100: #DCE4EE;
-  --color-navy-200: #C2D0E0;
-  --color-navy-600: #3E597B;
-  --color-navy-700: #294366;
-  --color-navy-800: #1D324E;
+  --color-stone-canvas: #E3DCD5;
+  --color-stone-surface: #ECE6DF;
+  --color-ivory-matte: #F7F4EE;
+  --color-slate-pastel: #5B7083;
+  --color-sage-pastel: #6E8579;
   --color-navy-900: #14243B;
-
-  --color-gold-100: #F6EFE0;
-  --color-gold-300: #DEC796;
-  --color-gold-500: #C4A25D;
+  --color-navy-800: #1D324E;
+  --color-navy-700: #294366;
   --color-gold-600: #A5833E;
-  --color-gold-700: #87692C;
+  --color-gold-500: #C4A25D;
 }
 
 @layer base {
   html {
     font-family: var(--font-sans);
-    background-color: #FCFAF7;
+    background-color: #E3DCD5;
     color: #14243B;
   }
 
@@ -42,42 +33,108 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* Custom hairline range input matching pastel navy, beige & gold palette */
-input[type="range"].alvorada-slider {
+/* Soft Tactile Matte Surfaces inspired by clay/stone UI */
+.tactile-panel {
+  background-color: #F7F4EE;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  box-shadow:
+    0 14px 32px -12px rgba(20, 36, 59, 0.14),
+    0 3px 8px -2px rgba(20, 36, 59, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+.tactile-card-stone {
+  background-color: #ECE6DF;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow:
+    0 10px 24px -10px rgba(20, 36, 59, 0.12),
+    0 2px 6px -1px rgba(20, 36, 59, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.tactile-tile-slate {
+  background: linear-gradient(160deg, #5F768A 0%, #4E6478 100%);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow:
+    0 12px 24px -10px rgba(20, 36, 59, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.32);
+}
+
+.tactile-tile-sage {
+  background: linear-gradient(160deg, #758C80 0%, #63796E 100%);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow:
+    0 12px 24px -10px rgba(20, 36, 59, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.32);
+}
+
+.tactile-tile-navy {
+  background: linear-gradient(160deg, #253D5E 0%, #192C46 100%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow:
+    0 12px 24px -10px rgba(20, 36, 59, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.tactile-recessed {
+  background-color: #E3DCD5;
+  border: 1px solid rgba(20, 36, 59, 0.07);
+  box-shadow:
+    inset 0 2px 5px rgba(20, 36, 59, 0.11),
+    0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.tactile-button-raised {
+  background: linear-gradient(180deg, #FAF8F4 0%, #EFEAE2 100%);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow:
+    0 4px 10px -3px rgba(20, 36, 59, 0.14),
+    0 1px 2px rgba(20, 36, 59, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+/* Tactile Graduated Range Slider */
+input[type="range"].tactile-range {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
-  height: 4px;
+  height: 10px;
   border-radius: 9999px;
-  background: #DCE4EE;
+  background: #DFD8D0;
+  box-shadow:
+    inset 0 2px 4px rgba(20, 36, 59, 0.16),
+    0 1px 0 rgba(255, 255, 255, 0.8);
   outline: none;
   cursor: pointer;
 }
 
-input[type="range"].alvorada-slider::-webkit-slider-thumb {
+input[type="range"].tactile-range::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: #1D324E;
-  border: 2px solid #FCFAF7;
-  box-shadow: 0 1px 4px rgba(20, 36, 59, 0.25);
-  transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1), background-color 150ms ease;
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  background: linear-gradient(180deg, #FFFFFF 0%, #EAE3DA 100%);
+  border: 1px solid rgba(29, 50, 78, 0.18);
+  box-shadow:
+    0 4px 10px rgba(20, 36, 59, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-input[type="range"].alvorada-slider::-webkit-slider-thumb:hover {
-  transform: scale(1.1);
-  background: #A5833E;
+input[type="range"].tactile-range::-webkit-slider-thumb:hover {
+  transform: scale(1.07);
 }
 
-input[type="range"].alvorada-slider::-moz-range-thumb {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: #1D324E;
-  border: 2px solid #FCFAF7;
-  box-shadow: 0 1px 4px rgba(20, 36, 59, 0.25);
+input[type="range"].tactile-range::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  background: linear-gradient(180deg, #FFFFFF 0%, #EAE3DA 100%);
+  border: 1px solid rgba(29, 50, 78, 0.18);
+  box-shadow:
+    0 4px 10px rgba(20, 36, 59, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
   cursor: pointer;
 }
 
