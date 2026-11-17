@@ -1,27 +1,37 @@
-const CASE_STUDIES = [
+import { Star } from 'lucide-react';
+
+interface GoogleTestimonial {
+  author: string;
+  context: string;
+  highlight?: string;
+  quote: string;
+  rating: number;
+}
+
+const GOOGLE_TESTIMONIALS: GoogleTestimonial[] = [
   {
-    client: 'Dr. Henrique Vasconcelos',
-    role: 'Diretor Clínico · Instituto Vasconcelos, Campinas',
-    metric: 'R$ 540 mil economizados',
-    period: 'Operação de 180 meses · Contemplada no 9º mês',
-    summary:
-      'Precisava expandir a clínica comprando dois conjuntos comerciais de R$ 1,4M sem liquidar sua carteira em LCI. Estruturamos duas cartas com lance embutido de 20% e fluxo de meia parcela; a economia total frente ao financiamento bancário atingiu R$ 540 mil.',
+    author: 'Adelino Arlindo Dognini',
+    context: 'Avaliação verificada no Google · NS Assessoria Consórcios',
+    highlight: 'Atendimento transparente e sem pressão',
+    quote:
+      'Excelente atendimento da Suelen! Muito atenciosa, educada e prestativa. Tirou todas as minhas dúvidas com muita clareza, sem pressão e sempre me deixando muito à vontade para decidir. Esse tipo de atendimento transmite confiança.',
+    rating: 5,
   },
   {
-    client: 'Marina Bittencourt',
-    role: 'Sócia-fundadora · Bittencourt Arquitetura, São Paulo',
-    metric: '+R$ 9.400/mês de renda líquida',
-    period: 'Carteira de 2 imóveis · Horizonte de 24 meses',
-    summary:
-      'Buscava renda passiva imobiliária mantendo R$ 350 mil rendendo no Tesouro Selic. Utilizou os rendimentos mensais para amortizar duas cotas imobiliárias, contempladas nos meses 7 e 14, hoje alugadas com saldo positivo após parcela.',
+    author: 'José Júnior',
+    context: 'Avaliação verificada no Google · NS Assessoria Consórcios',
+    highlight: 'Carta de crédito e alavancagem patrimonial · Ótimo preço',
+    quote:
+      'Excelente profissional! Iniciamos uma conversa sobre carta de crédito e alavancar patrimônio e, em um simples bate-papo para alinhamento dos objetivos, a Suelen conseguiu me apresentar ótimos planos.',
+    rating: 5,
   },
   {
-    client: 'Eduardo Monteiro',
-    role: 'Gerente Financeiro · Transportadora Sul-Oeste, Curitiba',
-    metric: '42% menos custo de capital',
-    period: 'Renovação de 4 utilitários · 72 meses',
-    summary:
-      'Pagava CET de 23% a.a. em CDC bancário na renovação de frota. Migrou para grupos empresariais selecionados com lance composto pela venda dos seminovos, reduzindo o custo anual efetivo da frota para 2,5% a.a.',
+    author: 'Luciane Aquino',
+    context: 'Avaliação verificada no Google · NS Assessoria Consórcios',
+    highlight: 'Acompanhamento completo · Ótimo preço',
+    quote:
+      'Tive uma ótima experiência com a NS Consórcios! Quero agradecer especialmente à Suelen, que me ajudou durante todo o processo com muita atenção e paciência.',
+    rating: 5,
   },
 ];
 
@@ -34,7 +44,7 @@ const PROCESS_STEPS = [
   {
     step: '02. Auditoria de Grupos e Lances',
     description:
-      'Comparamos o histórico de contemplação de mais de 12 administradoras autorizadas pelo Banco Central para escolher grupos com menor concorrência de lance.',
+      'Comparamos o histórico de contemplação de administradoras autorizadas pelo Banco Central para escolher grupos com menor concorrência de lance.',
   },
   {
     step: '03. Acompanhamento até a Escritura',
@@ -47,37 +57,74 @@ export function ProofAndProcessSection() {
   return (
     <section id="resultados" className="border-t border-[#E5DBCA] bg-[#FCFAF7] py-16 lg:py-24">
       <div className="mx-auto max-w-[1280px] px-6 lg:px-10">
-        {/* Case Studies */}
-        <div className="max-w-2xl">
-          <p className="text-xs font-semibold tracking-wide text-[#87692C]">
-            Resultados Comprovados
-          </p>
-          <h2
-            className="mt-2 font-editorial text-3xl font-semibold tracking-tight text-[#14243B] sm:text-4xl"
-            style={{ textWrap: 'balance' }}
-          >
-            Casos reais de economia de juros e multiplicação patrimonial.
-          </h2>
+        {/* Verified Google Reviews Header */}
+        <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
+          <div className="max-w-2xl">
+            <p className="text-xs font-semibold tracking-wide text-[#87692C]">
+              Avaliações Reais dos Clientes
+            </p>
+            <h2
+              className="mt-2 font-editorial text-3xl font-semibold tracking-tight text-[#14243B] sm:text-4xl"
+              style={{ textWrap: 'balance' }}
+            >
+              Confiança comprovada por quem já planejou seu consórcio conosco.
+            </h2>
+          </div>
+
+          <div className="shrink-0 border-t border-[#E5DBCA] pt-4 lg:border-t-0 lg:pt-0 lg:text-right">
+            <div className="flex items-center gap-2 lg:justify-end">
+              <span className="font-mono text-2xl font-semibold text-[#14243B] tabular-nums">
+                5,0
+              </span>
+              <div className="flex items-center gap-0.5" aria-label="Nota 5 de 5 estrelas">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star
+                    key={i}
+                    className="h-4 w-4 fill-[#C4A25D] text-[#C4A25D]"
+                    aria-hidden="true"
+                  />
+                ))}
+              </div>
+            </div>
+            <p className="mt-1 text-xs text-[#3E597B]">
+              103 avaliações no Google · NS Assessoria Consórcios (Ipatinga - MG)
+            </p>
+          </div>
         </div>
 
+        {/* 3 Real Testimonials */}
         <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-3">
-          {CASE_STUDIES.map((item) => (
+          {GOOGLE_TESTIMONIALS.map((item) => (
             <article
-              key={item.client}
+              key={item.author}
               className="flex flex-col justify-between rounded-xl border border-[#DFD6C5] bg-[#F8F4EC]/70 p-6 sm:p-7"
             >
               <div>
-                <p className="font-mono text-2xl font-medium tracking-tight text-[#1D324E] tabular-nums">
-                  {item.metric}
-                </p>
-                <p className="mt-1 text-xs text-[#87692C]">{item.period}</p>
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-0.5" aria-label={`${item.rating} estrelas`}>
+                    {Array.from({ length: item.rating }).map((_, idx) => (
+                      <Star
+                        key={idx}
+                        className="h-3.5 w-3.5 fill-[#C4A25D] text-[#C4A25D]"
+                        aria-hidden="true"
+                      />
+                    ))}
+                  </div>
+                  <span className="text-xs font-medium text-[#87692C]">Google</span>
+                </div>
 
-                <p className="mt-5 text-sm leading-relaxed text-[#294366]">{item.summary}</p>
+                {item.highlight && (
+                  <p className="mt-3 text-xs font-semibold text-[#1D324E]">{item.highlight}</p>
+                )}
+
+                <blockquote className="mt-3 text-sm leading-relaxed text-[#294366]">
+                  “{item.quote}”
+                </blockquote>
               </div>
 
               <div className="mt-6 border-t border-[#E5DBCA] pt-4">
-                <p className="text-sm font-semibold text-[#14243B]">{item.client}</p>
-                <p className="text-xs text-[#3E597B]">{item.role}</p>
+                <p className="text-sm font-semibold text-[#14243B]">{item.author}</p>
+                <p className="text-xs text-[#3E597B]">{item.context}</p>
               </div>
             </article>
           ))}
