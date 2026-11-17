@@ -17,7 +17,7 @@ export function Navbar({ onBookClick }: NavbarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="relative z-40 border-b border-[#CFC6BC] bg-[#e3dcd5]">
+    <header className="relative z-40 border-b border-[#d5cdc4] bg-[#ece6df] shadow-[0_6px_18px_-8px_rgba(20,36,59,0.12)]">
       <div className="mx-auto flex max-w-[1280px] items-center justify-between gap-8 px-6 py-4 lg:px-10 lg:py-5">
         {/* Zone 1: Inaugural 2x Mapeal logo */}
         <a
@@ -67,7 +67,7 @@ export function Navbar({ onBookClick }: NavbarProps) {
 
       {/* Mobile drawer */}
       {mobileOpen && (
-        <div className="border-t border-[#CFC6BC] bg-[#e3dcd5] px-6 py-4 md:hidden">
+        <div className="border-t border-[#d5cdc4] bg-[#ece6df] px-6 py-4 md:hidden">
           <nav className="flex flex-col gap-3">
             {NAV_LINKS.map((item) => (
               <a

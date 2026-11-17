@@ -526,13 +526,13 @@ export function SimulatorSection({
             <div className="flex flex-col justify-between gap-5 lg:col-span-5">
               {mode === 'consorcio' ? (
                 <>
-                  {/* 3 Matte Pastel KPI Tiles (Slate, Sage, Ivory) */}
-                  <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
-                    <div className="tactile-tile-navy rounded-2xl p-4 text-[#FCFAF7]">
+                  {/* 3 Matte Pastel KPI Tiles (Navy, Sage, Slate) */}
+                  <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
+                    <div className="tactile-tile-navy rounded-2xl p-3.5 text-[#FCFAF7]">
                       <p className="text-[11px] font-medium text-[#FCFAF7]/80">
                         {halfInstallment ? 'Parcela Inicial (50%)' : 'Parcela Mensal'}
                       </p>
-                      <p className="mt-1.5 font-mono text-xl font-semibold tabular-nums">
+                      <p className="mt-1.5 font-mono text-lg font-semibold tracking-tight tabular-nums xl:text-[15px]">
                         {formatBRLPrecise(consortiumResult.initialInstallment)}
                       </p>
                       <p className="mt-1 font-mono text-[11px] text-[#DEC796] tabular-nums">
@@ -542,11 +542,11 @@ export function SimulatorSection({
                       </p>
                     </div>
 
-                    <div className="tactile-tile-sage rounded-2xl p-4 text-[#FCFAF7]">
+                    <div className="tactile-tile-sage rounded-2xl p-3.5 text-[#FCFAF7]">
                       <p className="text-[11px] font-medium text-[#FCFAF7]/85">
                         Economia vs. Banco
                       </p>
-                      <p className="mt-1.5 font-mono text-xl font-semibold tabular-nums">
+                      <p className="mt-1.5 font-mono text-lg font-semibold tracking-tight tabular-nums xl:text-[15px]">
                         {formatBRL(consortiumResult.estimatedSavings)}
                       </p>
                       <p className="mt-1 font-mono text-[11px] text-[#FCFAF7]/85 tabular-nums">
@@ -554,11 +554,11 @@ export function SimulatorSection({
                       </p>
                     </div>
 
-                    <div className="tactile-tile-slate rounded-2xl p-4 text-[#FCFAF7]">
+                    <div className="tactile-tile-slate rounded-2xl p-3.5 text-[#FCFAF7]">
                       <p className="text-[11px] font-medium text-[#FCFAF7]/85">
                         Crédito Líquido
                       </p>
-                      <p className="mt-1.5 font-mono text-xl font-semibold tabular-nums">
+                      <p className="mt-1.5 font-mono text-lg font-semibold tracking-tight tabular-nums xl:text-[15px]">
                         {formatBRL(consortiumResult.netCredit)}
                       </p>
                       <p className="mt-1 font-mono text-[11px] text-[#FCFAF7]/80 tabular-nums">
@@ -598,13 +598,13 @@ export function SimulatorSection({
                 </>
               ) : (
                 <>
-                  <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
-                    <div className="tactile-tile-navy rounded-2xl p-4 text-[#FCFAF7]">
+                  <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
+                    <div className="tactile-tile-navy rounded-2xl p-3.5 text-[#FCFAF7]">
                       <p className="text-[11px] font-medium text-[#FCFAF7]/80">
                         Patrimônio em {years}a
                       </p>
-                      <p className="mt-1.5 font-mono text-xl font-semibold tabular-nums">
-                        {formatBRL(investmentResult.finalBalance)}
+                      <p className="mt-1.5 font-mono text-lg font-semibold tracking-tight tabular-nums xl:text-[15px]">
+                        {formatBRL(investmentResult.finalBalance, true)}
                       </p>
                       <p className="mt-1 font-mono text-[11px] text-[#DEC796] tabular-nums">
                         {(
@@ -615,23 +615,23 @@ export function SimulatorSection({
                       </p>
                     </div>
 
-                    <div className="tactile-tile-sage rounded-2xl p-4 text-[#FCFAF7]">
+                    <div className="tactile-tile-sage rounded-2xl p-3.5 text-[#FCFAF7]">
                       <p className="text-[11px] font-medium text-[#FCFAF7]/85">
                         Rendimento Composto
                       </p>
-                      <p className="mt-1.5 font-mono text-xl font-semibold tabular-nums">
-                        +{formatBRL(investmentResult.totalYield)}
+                      <p className="mt-1.5 font-mono text-lg font-semibold tracking-tight tabular-nums xl:text-[15px]">
+                        +{formatBRL(investmentResult.totalYield, true)}
                       </p>
                       <p className="mt-1 font-mono text-[11px] text-[#FCFAF7]/85 tabular-nums">
                         {annualRatePct.toFixed(2)}% ao ano
                       </p>
                     </div>
 
-                    <div className="tactile-tile-slate rounded-2xl p-4 text-[#FCFAF7]">
+                    <div className="tactile-tile-slate rounded-2xl p-3.5 text-[#FCFAF7]">
                       <p className="text-[11px] font-medium text-[#FCFAF7]/85">
                         Renda Passiva / Mês
                       </p>
-                      <p className="mt-1.5 font-mono text-xl font-semibold tabular-nums">
+                      <p className="mt-1.5 font-mono text-lg font-semibold tracking-tight tabular-nums xl:text-[15px]">
                         {formatBRL(investmentResult.monthlyPassiveIncome)}
                       </p>
                       <p className="mt-1 text-[11px] text-[#FCFAF7]/80">
