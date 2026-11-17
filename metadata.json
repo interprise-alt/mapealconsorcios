@@ -1,0 +1,8 @@
+{
+  "name": "Alvorada Patrimonial — Consultoria em Consórcios e Investimentos",
+  "description": "Consultoria especializada em estruturação de consórcios, alavancagem imobiliária e planejamento de investimentos com simulador interativo.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
