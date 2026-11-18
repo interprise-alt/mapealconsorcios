@@ -571,7 +571,7 @@ export function SimulatorSection({
                   <div className="tactile-panel flex-1 rounded-2xl p-5">
                     <ProjectionChart
                       title="Desembolso Acumulado ao Longo do Prazo"
-                      primaryLabel="Consórcio Mapeal · NS"
+                      primaryLabel="Consórcio 2M · NS"
                       secondaryLabel="Financiamento Bancário"
                       data={consortiumResult.chartSeries.map((pt) => ({
                         label: pt.label,

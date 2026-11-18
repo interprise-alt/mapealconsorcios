@@ -189,8 +189,8 @@ export function StrategiesSection({ onSimulatePreset }: StrategiesSectionProps) 
             <div className="min-h-[240px] lg:col-span-5">
               <SafeImage
                 src="/src/assets/images/hero_wealth_office_1794859976820.jpg"
-                alt="Escritório de consultoria patrimonial Mapeal com mesa em travertino bege e poltronas azul marinho"
-                fallbackTitle="Mapeal Consultoria"
+                alt="Escritório de consultoria patrimonial 2M Consórcios & Investimentos com mesa em travertino bege e poltronas azul marinho"
+                fallbackTitle="2M Consórcios & Investimentos"
                 className="h-full w-full object-cover"
               />
             </div>

@@ -12,7 +12,7 @@ export function SafeImage({
   src,
   alt,
   className = '',
-  fallbackTitle = 'Mapeal Consultoria',
+  fallbackTitle = '2M Consórcios & Investimentos',
 }: SafeImageProps) {
   const [hasError, setHasError] = useState(false);
 

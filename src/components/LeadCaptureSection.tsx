@@ -75,7 +75,7 @@ export function LeadCaptureSection({
 
   const whatsappUrl = useMemo(() => {
     const lines = [
-      `Olá Mapeal Consultoria! Gostaria de solicitar um estudo personalizado.`,
+      `Olá 2M Consórcios & Investimentos! Gostaria de solicitar um estudo personalizado.`,
       submittedProtocol ? `Protocolo: ${submittedProtocol}` : null,
       name.trim() ? `Nome: ${name.trim()}` : null,
       phone.trim() ? `Telefone/WhatsApp: ${phone.trim()}` : null,
@@ -101,7 +101,7 @@ export function LeadCaptureSection({
   ]);
 
   const directWhatsappUrl = `https://wa.me/${WHATSAPP_NUMBER_E164}?text=${encodeURIComponent(
-    'Olá! Vim pelo site da Mapeal e gostaria de conversar sobre consórcios e investimentos.'
+    'Olá! Vim pelo site da 2M Consórcios & Investimentos e gostaria de conversar sobre consórcios e investimentos.'
   )}`;
 
   return (
@@ -123,7 +123,7 @@ export function LeadCaptureSection({
               Receba um estudo completo de grupos e alocação para o seu objetivo.
             </h2>
             <p className="mt-4 text-base leading-relaxed text-[#3E597B]">
-              Em uma reunião reservada com a Mapeal, apresentamos comparativos reais da NS Assessoria Consórcios, média de lances dos últimos 6 meses e impacto na sua carteira de investimentos.
+              Em uma reunião reservada com a 2M Consórcios & Investimentos, apresentamos comparativos reais da NS Assessoria Consórcios, média de lances dos últimos 6 meses e impacto na sua carteira de investimentos.
             </p>
 
             <div className="tactile-panel mt-8 space-y-5 rounded-2xl p-6 text-sm text-[#294366]">

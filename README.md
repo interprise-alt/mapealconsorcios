@@ -1,6 +1,6 @@
-# Mapeal — Consultoria em Negócios, Investimentos e Consórcios
+# 2M Consórcios & Investimentos
 
-Site institucional e simulador comparativo de consórcios e investimentos da **Mapeal** (Marcos Pedro Alves), em parceria com a **NS Assessoria Consórcios**.
+Site institucional e simulador comparativo de consórcios e investimentos da **2M Consórcios & Investimentos** (Marcos Pedro Alves), em parceria com a **NS Assessoria Consórcios**.
 
 ## Publicação na Render.com
 

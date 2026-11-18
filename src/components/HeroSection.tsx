@@ -13,7 +13,7 @@ export function HeroSection({ onSimulateClick, onContactClick }: HeroSectionProp
         <div className="grid grid-cols-1 items-center gap-6 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-7">
             <p className="text-xs font-semibold tracking-wide text-[#87692C]">
-              Mapeal Consultoria · Em parceria com NS Assessoria Consórcios
+              2M Consórcios & Investimentos · Em parceria com NS Assessoria Consórcios
             </p>
             <h1
               className="mt-2 font-editorial font-semibold tracking-tight text-[#14243B]"

@@ -7,7 +7,7 @@ export function Footer() {
         <div className="flex flex-col justify-between gap-10 md:flex-row md:items-start">
           <div className="max-w-md">
             <div className="flex flex-wrap items-center gap-5">
-              <BrandLogo className="h-14 w-auto sm:h-16" />
+              <BrandLogo className="h-16 w-auto sm:h-20" />
               <div className="h-10 w-px bg-[#CFC6BC]" aria-hidden="true" />
               <div className="flex items-center gap-3">
                 <PartnerSeal className="h-12 w-12" />
@@ -19,7 +19,7 @@ export function Footer() {
             </div>
 
             <p className="mt-4 text-sm leading-relaxed text-[#3E597B]">
-              Mapeal — Consultoria em negócios, investimentos e consórcios por Marcos Pedro Alves, unindo planejamento financeiro independente à inteligência de contemplação da NS Assessoria Consórcios.
+              2M Consórcios & Investimentos — Consultoria estratégica por Marcos Pedro Alves, unindo planejamento financeiro independente à inteligência de contemplação da NS Assessoria Consórcios.
             </p>
           </div>
 
@@ -35,6 +35,11 @@ export function Footer() {
                 <li>
                   <a href="#estrategias" className="hover:text-[#14243B] hover:underline">
                     Estratégias
+                  </a>
+                </li>
+                <li>
+                  <a href="#contempladas" className="hover:text-[#14243B] hover:underline">
+                    Contempladas
                   </a>
                 </li>
                 <li>
@@ -80,7 +85,7 @@ export function Footer() {
 
         <div className="mt-10 flex flex-col justify-between gap-4 border-t border-[#CFC6BC] pt-6 text-xs text-[#4E6478] sm:flex-row sm:items-center">
           <p>
-            © {new Date().getFullYear()} Mapeal — Consultoria em Negócios, Investimentos e Consórcios. Em parceria com NS Assessoria Consórcios.
+            © {new Date().getFullYear()} 2M Consórcios & Investimentos. Em parceria com NS Assessoria Consórcios.
           </p>
           <p>
             As simulações são estimativas educacionais sujeitas à atualização de índices (INCC/IPCA) e disponibilidade de grupos.

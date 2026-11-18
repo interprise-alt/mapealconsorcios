@@ -9,6 +9,7 @@ interface NavbarProps {
 const NAV_LINKS = [
   { href: '#simulador', label: 'Simulador' },
   { href: '#estrategias', label: 'Estratégias' },
+  { href: '#contempladas', label: 'Contempladas' },
   { href: '#resultados', label: 'Avaliações' },
   { href: '#contato', label: 'Contato' },
 ];
@@ -18,13 +19,13 @@ export function Navbar({ onBookClick }: NavbarProps) {
 
   return (
     <header className="relative z-40 border-b border-[#d5cdc4] bg-[#ece6df] shadow-[0_6px_18px_-8px_rgba(20,36,59,0.12)]">
-      <div className="mx-auto flex max-w-[1280px] items-center justify-between gap-8 px-6 py-4 lg:px-10 lg:py-5">
-        {/* Zone 1: Inaugural 2x Mapeal logo */}
+      <div className="mx-auto flex max-w-[1280px] items-center justify-between gap-8 px-6 py-1.5 lg:px-10 lg:py-1.5">
+        {/* Zone 1: Inaugural 2M logo with minimal vertical gap */}
         <a
           href="#topo"
           className="inline-flex items-center whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1D324E]"
         >
-          <BrandLogo className="h-20 w-auto sm:h-24 lg:h-28" />
+          <BrandLogo className="h-24 w-auto sm:h-28 lg:h-32" />
         </a>
 
         {/* Zone 2: Clean single-line navigation links */}

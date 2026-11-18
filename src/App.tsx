@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { ContemplatedLettersSection } from './components/ContemplatedLettersSection';
 import { Footer } from './components/Footer';
 import { HeroSection } from './components/HeroSection';
 import { LeadCaptureSection } from './components/LeadCaptureSection';
@@ -60,6 +61,8 @@ export default function App() {
         />
 
         <StrategiesSection onSimulatePreset={handleSimulatePreset} />
+
+        <ContemplatedLettersSection onRequestScenario={handleSendToLeadForm} />
 
         <ProofAndProcessSection />
 

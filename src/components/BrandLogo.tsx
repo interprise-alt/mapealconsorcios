@@ -4,19 +4,19 @@ interface BrandLogoProps {
 }
 
 const BRAND_LOGO_SRC =
-  '/assets/aistudio/Logo_Mapeal_com_Swoosh_Dourado_e_Crescimento_5ad81f79.png';
+  '/assets/aistudio/Logo_2M_em_Ouro_e_Marinho_bba11806.png';
 const PARTNER_SEAL_SRC = '/assets/aistudio/image_826c8182.png';
 
 export function BrandLogo({
-  className = 'h-14 w-auto',
-  alt = 'Mapeal — Consultoria em negócios, investimentos e consórcios',
+  className = 'h-20 w-auto',
+  alt = '2M Consórcios & Investimentos',
 }: BrandLogoProps) {
   return (
     <img
       src={BRAND_LOGO_SRC}
       alt={alt}
       referrerPolicy="no-referrer"
-      className={`object-contain ${className}`}
+      className={`rounded-xl border border-[#DDD5CC] object-contain shadow-[0_6px_16px_-6px_rgba(20,36,59,0.14)] ${className}`}
     />
   );
 }
